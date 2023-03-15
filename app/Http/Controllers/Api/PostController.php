@@ -35,13 +35,42 @@ class PostController extends Controller
             return response()->json($e);
        }
     }
-    public function update(EditRequest $Request,$id)
+    public function update(EditRequest $Request,Post $Post)
     {
-        $Post=  Post::find($id);
-        $Post->titre = $Request->titre;
-        $Post->description = $Request->description;
-        $Post->save();
+        try{
 
+            $Post->titre = $Request->titre;
+            $Post->description = $Request->description;
+            $Post->save();
+
+            return response()->json([
+                'status_code'=>200,
+                'status_message'=>'le post a ete mis a jour',
+                'data' =>$Post
+            ]);
+
+        }catch(Exception $e){
+            return response()->json($e);
+
+        }
+
+
+    }
+    public function delete(Post $Post)
+    {
+        try{
+            $Post->delete();
+
+
+            return response()->json([
+                'status_code'=>200,
+                'status_message'=>'le post a ete mis a ete supprimer',
+                'data' =>$Post
+            ]);
+        }catch(Exception $e){
+            return response()->json($e);
+
+        }
     }
 
 }
