@@ -11,9 +11,20 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Post $Post)
     {
-        return 'liste des articles';
+
+       try{
+
+        return response()->json([
+            'status_code'=>200,
+            'status_message'=>'voici la liste des article',
+            'data' =>$Post::all()
+        ]);
+
+   }catch(Exception $e){
+        return response()->json($e);
+   }
     }
     public function store(CreatePostRequest $Request)
     {
