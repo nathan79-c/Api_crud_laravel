@@ -6,7 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RegisterUser extends FormRequest
+
+class LogUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +25,8 @@ class RegisterUser extends FormRequest
     public function rules(): array
     {
         return [
-            'name' =>'required',
-            'email' =>'required|email|unique:users,email',
-            'password'=>'required'
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required'
         ];
     }
     public function failedValidation(Validator $validator)
@@ -42,7 +42,7 @@ class RegisterUser extends FormRequest
     public function messages()
     {
         return [
-                'name.required' => 'Un name  doit etre fournit',
+    
                 'email.required'=> 'le mail est requis',
                 'email.unique' =>'le mail est unique',
                 'password.required'=> 'le mot de passe est requis'
